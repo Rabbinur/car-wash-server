@@ -11,6 +11,6 @@ app.get("/", (req, res) => {
   res.send("car-wash server is running");
 });
 
-app.listen(post, () => {
+app.listen(port, () => {
   console.log(`car-wash-server on the ${port}`);
 });
