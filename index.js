@@ -43,6 +43,23 @@ async function run() {
       const services = await cursor.toArray();
       res.send(services);
     });
+    //orders api for all data
+    app.get("/orders", async (req, res) => {
+      console.log(req.query.email);
+      // for email searching and order product
+      //query system for data load
+      let query = {};
+      if (req.query.email) {
+        query = {
+          email: req.query.email,
+        };
+      }
+
+      const cursor = orderCollection.find(query);
+      const orders = await cursor.toArray();
+      res.send(orders);
+    });
+
     //create api for orders cause different db for this
     app.post("/orders", async (req, res) => {
       const order = req.body;
