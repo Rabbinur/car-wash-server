@@ -24,6 +24,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     const serviceCollection = client.db("car-wash").collection("services");
+    const orderCollection = client.db("car-wash").collection("orders");
 
     //create api for getting  data from mongodb
     //getting all data
@@ -41,6 +42,12 @@ async function run() {
       const cursor = serviceCollection.find(query);
       const services = await cursor.toArray();
       res.send(services);
+    });
+    //create api for orders cause different db for this
+    app.post("/orders", async (req, res) => {
+      const order = req.body;
+      const result = await orderCollection.insertOne(order);
+      res.send(result);
     });
   } finally {
   }
