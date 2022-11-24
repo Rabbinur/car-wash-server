@@ -45,18 +45,20 @@ async function run() {
     });
     //orders api for all data
     app.get("/orders", async (req, res) => {
-      console.log(req.query.email);
+      console.log(req.query.email); //email searching
       // for email searching and order product
       //query system for data load
       let query = {};
+
+      //check email and have then the change the query
       if (req.query.email) {
         query = {
           email: req.query.email,
         };
       }
-
+      //order collection e find korbo qurey diye
       const cursor = orderCollection.find(query);
-      const orders = await cursor.toArray();
+      const orders = await cursor.toArray(); //get order
       res.send(orders);
     });
 
@@ -64,6 +66,14 @@ async function run() {
     app.post("/orders", async (req, res) => {
       const order = req.body;
       const result = await orderCollection.insertOne(order);
+      res.send(result);
+    });
+
+    //for delete
+    app.delete("/orders/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await orderCollection.deleteOne(query);
       res.send(result);
     });
   } finally {
